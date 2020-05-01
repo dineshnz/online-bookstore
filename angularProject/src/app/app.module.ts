@@ -7,10 +7,11 @@ import { AppComponent } from './app.component';
 import { BookListComponent } from './components/book-list/book-list.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { HeaderComponent } from './components/header/header.component';
 
 const routes:Routes=[
   {path: 'books', component: BookListComponent},
-  {path:'category/{id}', component: BookListComponent},
+  {path:'category/:id', component: BookListComponent},
   {path:'', redirectTo:'/books', pathMatch:'full'},
   {path:'**', component:PageNotFoundComponent}
 ] 
@@ -20,7 +21,8 @@ const routes:Routes=[
     AppComponent,
     BookListComponent,
     FooterComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

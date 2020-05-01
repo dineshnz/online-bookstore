@@ -11,17 +11,22 @@ import { BookCategory } from '../common/book-category';
 export class BookService {
 
   private baseUrl= 'http://localhost:8080/api/books';
+  
   private categoryUrl='http://localhost:8080/api/book-category';
 
   constructor(private http:HttpClient) { }
 
-  getBooks():Observable<Book[]>{
-    return this.http.get<getResponseBooks>(this.baseUrl)
+  getBooks(categoryId:number):Observable<Book[]>{
+    const searchUrl= `${this.baseUrl}/search/categoryid?id=${categoryId}`;
+
+    console.log(searchUrl);
+    return this.http.get<getResponseBooks>(searchUrl)
     .pipe(map(response=>response._embedded.books));
   }
 
   getBookCategory():Observable<BookCategory[]>{
-    return this.http.get<getCategoryResponse>(this.categoryUrl)
+   
+    return this.http.get<getCategoryResponse>(this.baseUrl)
     .pipe(map(response=>response._embedded.bookCategory));
   }
 

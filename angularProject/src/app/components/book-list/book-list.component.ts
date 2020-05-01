@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Book } from 'src/app/common/book';
 import { BookService } from '../../services/book.service';
 import { BookCategory } from '../../common/book-category';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-book-list',
@@ -12,18 +13,31 @@ export class BookListComponent implements OnInit {
 
   books: Book[];
   categories: BookCategory[];
+  currentCategoryId:number;
 
-  constructor(private bookService: BookService) { }
+  constructor(private bookService: BookService,
+              private route:ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getBooks();
-    this.getBookCategory();
+    this.route.paramMap.subscribe(()=>{
+      this.getBooks();
+    })
   }
 
   getBooks(){
-    this.bookService.getBooks().subscribe(
+    const hasCategoryId:boolean= this.route.snapshot.paramMap.has('id');
+
+    if(hasCategoryId){
+      this.currentCategoryId= +this.route.snapshot.paramMap.get('id');
+    }else{
+      this.currentCategoryId=1;
+    }
+
+    this.bookService.getBooks(this.currentCategoryId).subscribe(
       data=>{
         this.books= data;
+        console.log(this.books);
+        console.log('Category Id is'+this.currentCategoryId);
       },
       error=>{
         console.log(error);
