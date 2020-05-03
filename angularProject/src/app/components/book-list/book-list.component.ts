@@ -12,8 +12,10 @@ import { ActivatedRoute } from '@angular/router';
 export class BookListComponent implements OnInit {
 
   books: Book[];
-  categories: BookCategory[];
+ 
   currentCategoryId:number;
+  searchMode:boolean;
+  searchParam:string;
 
   constructor(private bookService: BookService,
               private route:ActivatedRoute) { }
@@ -25,6 +27,18 @@ export class BookListComponent implements OnInit {
   }
 
   getBooks(){
+    this.searchMode= this.route.snapshot.paramMap.has('keyword');
+
+    if(this.searchMode){
+      //call handle search book method
+      this.searchParam= this.route.snapshot.paramMap.get('keyword');
+      this.handleSearchBookLists(this.searchParam);
+    }else{
+      this.handleBookLists();
+    }
+  }
+
+  handleBookLists(){
     const hasCategoryId:boolean= this.route.snapshot.paramMap.has('id');
 
     if(hasCategoryId){
@@ -36,8 +50,6 @@ export class BookListComponent implements OnInit {
     this.bookService.getBooks(this.currentCategoryId).subscribe(
       data=>{
         this.books= data;
-        console.log(this.books);
-        console.log('Category Id is'+this.currentCategoryId);
       },
       error=>{
         console.log(error);
@@ -45,16 +57,17 @@ export class BookListComponent implements OnInit {
     );
   }
 
-  getBookCategory(){
-    this.bookService.getBookCategory().subscribe(
+  handleSearchBookLists(input:string){
+    this.bookService.searchBooks(input).subscribe(
       data=>{
-        this.categories=data;
-        console.log("data are:"+ data);
+        this.books= data;
       },
       error=>{
         console.log(error);
       }
     );
+
   }
+  
 
 }

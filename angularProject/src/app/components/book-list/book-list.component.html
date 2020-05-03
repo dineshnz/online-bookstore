@@ -8,22 +8,7 @@
   
       <div class="col-lg-3">
   
-        <div class="list-group">
-          <a routerLink="/category/1"  class="list-group-item"
-          routerLinkActive="bg-primary text-white font-weight-bold">
-          Web Development</a>
-
-          <a routerLink="/category/2"  class="list-group-item"
-          routerLinkActive="bg-primary text-white font-weight-bold">
-          Programming</a>
-
-          <a routerLink="/category/3"  class="list-group-item"
-          routerLinkActive="bg-primary text-white font-weight-bold">
-          Databases</a>
-          
-          <!-- <a href="#" class="list-group-item">Category 2</a>
-          <a href="#" class="list-group-item">Category 3</a> -->
-        </div>
+        <app-boock-category></app-boock-category>
   
       </div>
       <!-- /.col-lg-3 -->
@@ -45,6 +30,10 @@
                 <button class="btn btn-primary float-right">Add to Cart</button>
               </div>
             </div>
+          </div>
+          <!-- if the book is not null or undefined then only ? will check this ccondition -->
+          <div *ngIf="books?.length==0" class="col-md-12 alert alert-danger mt-3"> 
+            No Books Found with name {{searchParam}}
           </div>
   
         </div>
