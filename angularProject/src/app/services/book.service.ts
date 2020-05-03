@@ -22,6 +22,11 @@ export class BookService {
     console.log(searchUrl);
     return this.getResponse(searchUrl);
   }
+  //get books by id
+  getBookById(id:number):Observable<Book>{
+    const searchUrl= `${this.baseUrl}/${id}`;
+    return this.http.get<Book>(searchUrl);
+  }
 
   getBookCategory():Observable<BookCategory[]>{
    
@@ -39,6 +44,8 @@ export class BookService {
     return this.http.get<getResponseBooks>(searchUrl)
       .pipe(map(response => response._embedded.books));
   }
+
+  
 }
 
 interface getResponseBooks{
